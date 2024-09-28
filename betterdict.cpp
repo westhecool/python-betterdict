@@ -55,7 +55,7 @@ PYBIND11_MODULE(betterdict, m) {
         .def(py::init())
         
         // Bind the methods
-        .def("includes", &BetterDict::includes, "Checks if a key includes in the dict", py::arg("key"))
+        .def("includes", &BetterDict::includes, "Checks if a key exists in the dict", py::arg("key"))
         .def("set", &BetterDict::set, "Sets a value in the dict", py::arg("key"), py::arg("value"), py::arg("overwrite") = false)
         .def("get", &BetterDict::get, "Gets a value from the dict", py::arg("key"), py::arg("remove") = false)
         .def("remove", &BetterDict::remove, "Removes a value from the dict", py::arg("key"));
