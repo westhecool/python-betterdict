@@ -3,10 +3,11 @@ bd = BetterDict()
 
 # basic test
 bd.set('key', 'value')
-print(bd.exists('key'))
+print(bd.size())
 print(bd.get('key'))
 bd.remove('key')
-print(bd.exists('key'))
+print(bd.includes('key'))
+bd.clear()
 
 # type test
 # int

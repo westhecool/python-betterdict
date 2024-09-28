@@ -45,6 +45,12 @@ public:
             throw py::key_error("Key not found");
         }
     }
+    void clear() {
+        data.clear();
+    }
+    int size() {
+        return data.size();
+    }
 private:
     std::map<string, pyAny> data;
 };
@@ -58,5 +64,7 @@ PYBIND11_MODULE(betterdict, m) {
         .def("includes", &BetterDict::includes, "Checks if a key exists in the dict", py::arg("key"))
         .def("set", &BetterDict::set, "Sets a value in the dict", py::arg("key"), py::arg("value"), py::arg("overwrite") = false)
         .def("get", &BetterDict::get, "Gets a value from the dict", py::arg("key"), py::arg("remove") = false)
-        .def("remove", &BetterDict::remove, "Removes a value from the dict", py::arg("key"));
+        .def("remove", &BetterDict::remove, "Removes a value from the dict and frees memory", py::arg("key"))
+        .def("clear", &BetterDict::clear, "Removes all values from the dict and frees memory")
+        .def("size", &BetterDict::size, "Returns the number of values in the dict");
 }
