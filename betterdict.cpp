@@ -17,18 +17,18 @@ using string = std::variant<std::string, py::str>;
 class BetterDict {
 public:
     BetterDict() {}
-    bool exists(string key) {
+    bool includes(string key) {
         return data.find(key) != data.end();
     }
     void set(string key, pyAny value, bool overwrite = false) {
-        if (this->exists(key) && !overwrite) {
-            throw py::key_error("Key already exists and overwrite is false");
+        if (this->includes(key) && !overwrite) {
+            throw py::key_error("Key already includes and overwrite is false");
         } else {
             data[key] = value;
         }
     }
     pyAny get(string key, bool remove = false) {
-        if (this->exists(key)) {
+        if (this->includes(key)) {
             pyAny value = data[key];
             if (remove) {
                 this->remove(key);
@@ -39,7 +39,7 @@ public:
         }
     }
     void remove(string key) {
-        if (this->exists(key)) {
+        if (this->includes(key)) {
             data.erase(key);
         } else {
             throw py::key_error("Key not found");
@@ -55,7 +55,7 @@ PYBIND11_MODULE(betterdict, m) {
         .def(py::init())
         
         // Bind the methods
-        .def("exists", &BetterDict::exists, "Checks if a key exists in the dict", py::arg("key"))
+        .def("includes", &BetterDict::includes, "Checks if a key includes in the dict", py::arg("key"))
         .def("set", &BetterDict::set, "Sets a value in the dict", py::arg("key"), py::arg("value"), py::arg("overwrite") = false)
         .def("get", &BetterDict::get, "Gets a value from the dict", py::arg("key"), py::arg("remove") = false)
         .def("remove", &BetterDict::remove, "Removes a value from the dict", py::arg("key"));
