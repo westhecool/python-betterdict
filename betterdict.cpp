@@ -12,22 +12,20 @@ namespace py = pybind11;
 
 using pyAny = std::variant<int, long, float, double, std::string, py::str, bool, py::bool_, py::none, py::list, py::tuple, py::dict, py::set, py::bytes, py::function, py::iterator>;
 
-using string = std::variant<std::string, py::str>;
-
 class BetterDict {
 public:
     BetterDict() {}
-    bool includes(string key) {
+    bool includes(pyAny key) {
         return data.find(key) != data.end();
     }
-    void set(string key, pyAny value, bool overwrite = false) {
+    void set(pyAny key, pyAny value, bool overwrite = false) {
         if (this->includes(key) && !overwrite) {
             throw py::key_error("Key already includes and overwrite is false");
         } else {
             data[key] = value;
         }
     }
-    pyAny get(string key, bool remove = false) {
+    pyAny get(pyAny key, bool remove = false) {
         if (this->includes(key)) {
             pyAny value = data[key];
             if (remove) {
@@ -38,7 +36,7 @@ public:
             throw py::key_error("Key not found");
         }
     }
-    void remove(string key) {
+    void remove(pyAny key) {
         if (this->includes(key)) {
             data.erase(key);
         } else {
@@ -52,7 +50,7 @@ public:
         return data.size();
     }
 private:
-    std::map<string, pyAny> data;
+    std::map<pyAny, pyAny> data;
 };
 
 PYBIND11_MODULE(betterdict, m) {
