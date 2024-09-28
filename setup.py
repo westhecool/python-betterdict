@@ -17,6 +17,6 @@ setup(
     ext_modules=ext_modules,
     cmdclass={'build_ext': _build_ext},
     install_requires=[
-        'pybind11',
+        'pybind11>=2.13.6'
     ],
 )
