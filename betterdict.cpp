@@ -53,8 +53,12 @@ private:
     std::map<pyAny, pyAny> data;
 };
 
-class BetterDictBinary : public BetterDict {
+class BetterDictBinary {
 public:
+    BetterDictBinary() {}
+    bool includes(pyAny key) {
+        return data.find(key) != data.end();
+    }
     void set(pyAny key, py::bytes value, bool overwrite = false) {
         if (this->includes(key) && !overwrite) {
             throw py::key_error("Key already includes and overwrite is false");
@@ -72,6 +76,19 @@ public:
         } else {
             throw py::key_error("Key not found");
         }
+    }
+    void remove(pyAny key) {
+        if (this->includes(key)) {
+            data.erase(key);
+        } else {
+            throw py::key_error("Key not found");
+        }
+    }
+    void clear() {
+        data.clear();
+    }
+    int size() {
+        return data.size();
     }
 private:
     std::map<pyAny, py::bytes> data;

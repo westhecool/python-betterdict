@@ -1,4 +1,4 @@
-from betterdict import BetterDict
+from betterdict import BetterDict, BetterDictBinary
 bd = BetterDict()
 
 # basic test
@@ -40,3 +40,8 @@ print(bd.get('key', True))
 # function
 bd.set('key', lambda x: x + 1)
 print(bd.get('key')(1), bd.get('key', True))
+
+bdb = BetterDictBinary()
+
+bdb.set('key', b'hello')
+print(type(bdb.get('key')))
